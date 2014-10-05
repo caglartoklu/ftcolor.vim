@@ -51,6 +51,10 @@ See the section **Color Schemes** for references to some color schemes used in t
 
 The plugin is automatic.
 It will automatically run for each buffer after it has been configured for chosen file types.
+The following animation shows a few buffer changes:
+
+![ftcolor_demo_20141005.gif](https://raw.githubusercontent.com/caglartoklu/ftcolor.vim/media/ftcolor_demo_20141005.gif)
+
 
 To determine the file type of a buffer, type one of the following:
 
