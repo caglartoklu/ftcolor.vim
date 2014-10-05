@@ -7,7 +7,7 @@ Home page:
 
 Vim.org page:
 TODO: add the script ID.
-[http://www.vim.org/scripts/script.php?script_id=XXXX](http://www.vim.org/scripts/script.php?script_id=XXXX)
+[http://www.vim.org/scripts/script.php?script_id=5028](http://www.vim.org/scripts/script.php?script_id=5028)
 
 If you are in a position to work on more than one file type in a project (or several projects),
 this plugin could be useful:
