@@ -1,6 +1,6 @@
 # ftcolor.vim
 
-Changes colorschemes according to the buffer type.
+Switches colorschemes according to the file type.
 
 Home page:
 [https://github.com/caglartoklu/ftcolor.vim](https://github.com/caglartoklu/ftcolor.vim)
