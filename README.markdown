@@ -70,6 +70,13 @@ The default is:
     let g:ftcolor_plugin_enabled = 1
 
 
+## `g:ftcolor_custom_command`
+After setting the color, run this command.
+It is not defined by default, but you can use it like this:
+
+    let g:ftcolor_custom_command = 'AirlineRefresh'
+
+
 ## `g:ftcolor_redraw`
 After setting the color, redraw the screen.
 The default is:
