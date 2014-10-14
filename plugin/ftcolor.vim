@@ -189,6 +189,10 @@ function! ftcolor#MapColorScheme()
         if g:ftcolor_redraw == 1
             call s:RedrawScreen()
         endif
+
+        if exists('g:ftcolor_custom_command')
+          exec g:ftcolor_custom_command
+        endif
     endif
 endfunction
 
