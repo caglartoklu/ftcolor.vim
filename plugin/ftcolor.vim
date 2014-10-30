@@ -60,8 +60,16 @@ function! s:SetDefaultSettings()
         " let g:ftcolor_color_mappings.java = 'eclipse'
     endif
 
+    if !exists('g:ftcolor_last_colorscheme')
+        let g:ftcolor_last_colorscheme = ''
+    endif
+
+    if !exists('g:ftcolor_last_background')
+        let g:ftcolor_last_background = ''
+    endif
+
     " check the color mapping when a buffer is loaded.
-    au BufNewFile,BufEnter,BufReadPost * call ftcolor#MapColorScheme()
+    au BufNewFile,BufEnter,BufReadPost,WinEnter * call ftcolor#MapColorScheme()
 endfunction
 
 
@@ -80,10 +88,11 @@ function! s:SetColorScheme(colorscheme_name)
     " Sets the colorscheme if it is different than the current one.
     " Note that the comparison is case sensitive.
     " http://learnvimscriptthehardway.stevelosh.com/chapters/22.html
-    if s:GetCurrentColourSchemeName() !=# a:colorscheme_name
+    if s:GetCurrentColourSchemeName() !=? a:colorscheme_name
         let cmd = 'colorscheme ' . a:colorscheme_name
         exec cmd
     endif
+    let g:ftcolor_last_colorscheme = a:colorscheme_name
 endfunction
 
 
@@ -103,11 +112,14 @@ function! s:SetBackground(bground_name)
     " Sets the background if it is different than the current one.
     " Note that the comparison is case insensitive.
     " http://learnvimscriptthehardway.stevelosh.com/chapters/22.html
-    if s:GetCurrentBackground() !=# a:bground_name
+    if s:GetCurrentBackground() !=? a:bground_name
         if a:bground_name ==? 'dark' || a:bground_name ==? 'light'
             let cmd = 'set background=' . tolower(a:bground_name)
             exec cmd
         endif
+    endif
+    if a:bground_name !=? 'NONE'
+        let g:ftcolor_last_background = a:bground_name
     endif
 endfunction
 
@@ -132,52 +144,52 @@ function! ftcolor#MapColorScheme()
     if !g:ftcolor_plugin_enabled
         let doit = 0
     endif
-    " if &readonly
-    "     let doit = 0
-    " endif
-    " if !&modifiable
-    "     let doit = 0
-    " endif
-    " if &buftype!=#''
-    "     let doit = 0
-    " endif
-    " if &buftype==#'nofile'
-    "     let doit = 0
-    " endif
-    " if &buftype==#'quickfix'
-    "     let doit = 0
-    " endif
-    " if &buftype==#'help'
-    "     let doit = 0
-    " endif
-    " if &filetype==#'nerdree'
-    "     let doit = 0
-    " endif
-
-    if winnr('$')!=1
-        " This will avoid the change of the unwanted color changes.
-        " If you have a buffer, let's say Python buffer, and use
-        " a plugin that will internally open another buffer, such as
-        " Fuzzy Finder or NERDTree, it would cause the color change
-        " without this check.
-        " http://stackoverflow.com/q/10224953
-        let doit = 0
-    endif
 
     if doit
         let target_scheme = get(g:ftcolor_color_mappings, &filetype, g:ftcolor_default_color_scheme)
         " the value of the key can be either a string, or a list,
         " like 'molokai' or ['molokai', 'dark']
 
+        if &readonly
+            unlet target_scheme
+            let target_scheme = g:ftcolor_last_colorscheme
+        endif
+        if !&modifiable
+            " call input('t1 ' . type(target_scheme))
+            " call input('t2 ' . type(g:ftcolor_last_colorscheme))
+            unlet target_scheme
+            let target_scheme = g:ftcolor_last_colorscheme
+        endif
+        if &buftype!=#''
+            unlet target_scheme
+            let target_scheme = g:ftcolor_last_colorscheme
+        endif
+        if &buftype==#'nofile'
+            unlet target_scheme
+            let target_scheme = g:ftcolor_last_colorscheme
+        endif
+        if &buftype==#'quickfix'
+            unlet target_scheme
+            let target_scheme = g:ftcolor_last_colorscheme
+        endif
+        if &buftype==#'help'
+            unlet target_scheme
+            let target_scheme = g:ftcolor_last_colorscheme
+        endif
+        if &filetype==#'nerdree'
+            unlet target_scheme
+            let target_scheme = g:ftcolor_last_colorscheme
+        endif
+
+        " the value is expected to be a list,
+        " such as ['molokai'] or ['molokai', 'dark']
         if type(target_scheme) == type('')
-            " value is a string, such as 'molokai'
-            " Decho 'target_scheme:' . target_scheme
             call s:SetColorScheme(target_scheme)
         else
-            " the value is expected to be a list,
-            " such as ['molokai'] or ['molokai', 'dark']
             call s:SetColorScheme(target_scheme[0])
+        endif
 
+        if type(target_scheme) == type([])
             " safely get the 1st index, which will
             " 'dark' or 'light'.
             " If it does not exists, it will be 'NONE'
@@ -188,10 +200,6 @@ function! ftcolor#MapColorScheme()
 
         if g:ftcolor_redraw == 1
             call s:RedrawScreen()
-        endif
-
-        if exists('g:ftcolor_custom_command')
-          exec g:ftcolor_custom_command
         endif
     endif
 endfunction
