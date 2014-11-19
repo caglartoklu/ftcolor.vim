@@ -20,6 +20,9 @@ Please follow the
 [commit log](https://github.com/caglartoklu/ftcolor.vim/commits/master)
 for the full list.
 
+- 0.0.2, 2014-11-19
+  - New: Run a custom command after the colorscheme is set, thanks to https://github.com/aliou.
+  - Fix: Added support for help/utility/readonly buffers, so the colorscheme will be stable when such a buffer is opened.
 - 0.0.1, 2014-10-05
   - First version.
 
@@ -84,7 +87,7 @@ The default is:
     let g:ftcolor_redraw = 1
 
 
-# `g:ftcolor_default_color_scheme`
+## `g:ftcolor_default_color_scheme`
 If there is mapping for a file type, this color will be used.
 For this setting, you can set a colorscheme you like most.
 The default is:
@@ -92,7 +95,7 @@ The default is:
     let g:ftcolor_default_color_scheme = 'default'
 
 
-# `g:ftcolor_color_mappings`
+## `g:ftcolor_color_mappings`
 These are the keys you need to set to use the plugin.
 The default is empty, and it needs to be filled:
 
