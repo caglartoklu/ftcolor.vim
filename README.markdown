@@ -174,10 +174,3 @@ All trademarks and registered trademarks are the property of their respective ow
 The color schemes referenced in this document are not part of the [ftcolor.vim](https://github.com/caglartoklu/ftcolor.vim)
 plugin. See their individual licenses if necessary.
 
-
-# Contact Info
-
-You can find me on
-[Google+](https://plus.google.com/108566243864924912767/posts)
-
-Feel free to send bug reports, or ask questions.
